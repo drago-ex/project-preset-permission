@@ -1,0 +1,7 @@
+# Permissions for the web installer of project-install (it loads the neon files of this directory).
+services:
+	# the privileges of the packages (migrations-permission/) after the package migrations
+	- {factory: App\Presentation\Install\PermissionMigrations, tags: [install.migrations], autowired: no}
+
+	# the new administrator gets the admin role
+	- {factory: App\Presentation\Install\AdminRole, tags: [install.account], autowired: no}

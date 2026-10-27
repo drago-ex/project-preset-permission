@@ -1,0 +1,33 @@
+{
+	"name": "drago-ex/project-preset-permission",
+	"description": "Overlay of project-preset that adds permissions: menu by privileges, write buttons and database roles.",
+	"type": "drago-tools-resource",
+	"license": "MIT",
+	"require": {
+		"php": ">=8.3 <9",
+		"drago-ex/translator": "^4.0",
+		"drago-ex/project-preset": "^1.0",
+		"drago-ex/project-install": "^1.0",
+		"drago-ex/permission": "^1.0",
+		"drago-ex/project-permission": "^1.0",
+		"drago-ex/datagrid": "^1.0"
+	},
+	"require-dev": {
+		"phpstan/phpstan-nette": "^2.0"
+	},
+	"extra": {
+		"drago-tools": {
+			"install": {
+				"replace-once": true,
+				"replace-priority": 310,
+				"replace": {
+					"resources/app": "app",
+					"resources/assets": "assets"
+				}
+			}
+		}
+	},
+	"scripts": {
+		"phpstan": "phpstan analyse"
+	}
+}

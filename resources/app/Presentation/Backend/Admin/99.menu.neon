@@ -1,0 +1,10 @@
+# Permission checks of the menu items of project-backend-ui and project-preset, added by their keys (loaded last).
+# An item is shown when the user has any of the privileges on the resource; opening a page needs its `{action}-read`.
+parameters:
+	sidebar:
+		System:
+			dashboard: {allowAny: [Backend:Admin, default-read]}
+			settings: {allowAny: [Backend:Settings, default-read]}
+		Content:
+			blog: {allowAny: [Backend:Blog, default-read]}
+			page: {allowAny: [Backend:Page, default-read]}

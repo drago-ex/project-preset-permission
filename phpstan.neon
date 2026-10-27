@@ -1,0 +1,11 @@
+includes:
+	- vendor/phpstan/phpstan-nette/extension.neon
+
+parameters:
+	level: 8
+	paths:
+		- resources/app
+
+	# The preset overlays resources of other project packages, which provide the classes it builds on.
+	scanDirectories:
+		- vendor/drago-ex

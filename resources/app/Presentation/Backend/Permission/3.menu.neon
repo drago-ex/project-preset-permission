@@ -1,0 +1,12 @@
+# Item of the administration menu (drago-ex/project-backend-ui merges the sidebar parameter; the key lets a later file extend it).
+parameters:
+	sidebar:
+		System:
+			permission:
+				title: Permissions
+				link: 'Permission:*'
+				icon: fa-solid fa-gear bell
+				allowAny: [Backend:Permission, roles-read, users-read]
+				items:
+					roles: {title: Roles, link: 'Permission:roles', allow: [Backend:Permission, roles-read]}
+					users: {title: Users roles, link: 'Permission:users', allow: [Backend:Permission, users-read]}

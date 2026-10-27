@@ -1,0 +1,114 @@
+{templateType App\Presentation\Backend\Admin\AdminTemplate}
+{varType Drago\Application\UI\Flashes[] $flashes}
+{varType App\Core\Security\CurrentUser $currentUser}
+{import '../Accessory/Widget/@brand.latte'}
+
+<!doctype html>
+<html lang="{$lang}" data-bs-theme="light">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="robots" content="noindex, nofollow">
+	<title>{ifset title}{include title|stripHtml|firstUpper} &bull; {/ifset}{include brand|stripHtml}</title>
+
+	{asset 'admin.js'}
+</head>
+
+<body n:if="$currentUser->isLoggedIn()">
+
+<header>
+	<nav class="navbar navbar-expand-md bg-body fixed-top">
+		<div class="container-fluid">
+
+			{* the dashboard is linked only for users who may open it (the same check as its menu item) *}
+			{var bool $dashboard = $currentUser->isPermitted('Backend:Admin', 'default-read')}
+
+			<!-- title -->
+			<a class="navbar-brand" n:attr="href: $dashboard ? $presenter->link('Admin:')" n:tag="$dashboard ? 'a' : 'span'">
+				{include brand-logo}
+				<span class="text-body-emphasis">
+					{include brand}
+				</span>
+			</a>
+
+			<!-- navbar navigation -->
+			<div class="collapse navbar-collapse">
+
+				<!-- breadcrumb -->
+				<ul class="navbar-nav navbar-nav-breadcrumb">
+					<li n:if="$dashboard" class="nav-item"><a class="nav-link" n:href="Admin:">{_'Dashboard'}</a></li>
+					<li n:if="!$presenter->isLinkCurrent('Admin:default')" class="nav-item">
+						<span class="nav-link disabled" aria-current="page">{ifset title}{include title|stripHtml|firstUpper}{/ifset}</span>
+					</li>
+				</ul>
+			</div>
+
+			<div class="ms-auto d-flex align-items-center">
+
+				{* redrawn after every AJAX request (BackendPresenter), e.g. after approving a comment *}
+				<div n:snippet="notifications" class="d-flex">
+					{include 'Accessory/Menu/@notifications.latte', notifications: $notifications}
+				</div>
+
+				{embed '../Accessory/Widget/@dropdown.latte', name: 'Translate', icon: 'fa-solid fa-language', menu: 'end'}
+					{import '../Accessory/Widget/@lang-switch.latte'}
+					{block menu}
+						{include lang-switch, lang: 'cs', name: 'Czech', class: 'dropdown-item', tag: 'li'}
+						{include lang-switch, lang: 'en', name: 'English', class: 'dropdown-item', tag: 'li'}
+					{/block}
+				{/embed}
+
+				{include '../Accessory/Widget/@theme-switch.latte',
+					class: 'nav-link py-2 px-0 px-lg-2 border-0',
+					icon: true,
+				}
+
+				<!-- sidebar toggle -->
+				<button class="navbar-toggler btn btn-link border-0 ms-2" type="button" id="sidebar" aria-label="Toggle navigation" aria-controls="navigation" aria-expanded="false">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+			</div>
+		</div>
+	</nav>
+</header>
+
+<div class="d-flex wrapper wrapper-navbar-fixed">
+	<nav role="navigation" class="sidebar sidebar-rounded-top-right shadow-soft" id="navigation">
+		<div class="sidebar-menu">
+			<div class="sidebar-menu-fixed">
+				<div class="scrollbar scrollbar-use-navbar">
+
+					{* sidebar menu *}
+					{include 'Accessory/Menu/@menu.user.latte'}
+					{* only the numbers of the items are redrawn after AJAX requests, the links keep their scripts *}
+					{snippetArea sidebarBadges}
+						{include 'Accessory/Menu/@menu.latte'}
+					{/snippetArea}
+
+				</div>
+			</div>
+		</div>
+	</nav>
+
+	<div class="container-fluid">
+
+		{* content *}
+		<main role="main">
+			{snippet message}
+				{include '../Accessory/Widget/@toast.latte', flashes: $flashes}
+			{/snippet}
+
+			{* page content *}
+			{include content}
+		</main>
+
+		<!-- license rights, do not delete this piece of code -->
+		<footer class="text-end mt-3 mb-3">
+			<p class="text-muted">&copy; {include brand|stripHtml}</p>
+		</footer>
+	</div>
+</div>
+
+</body>
+</html>
