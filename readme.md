@@ -8,6 +8,7 @@ Overlay of [drago-ex/project-preset](https://github.com/drago-ex/project-preset)
 ## Requirements
 
 - PHP >= 8.3, < 9
+- [Drago Project](https://github.com/drago-ex/project)
 - [drago-ex/project-preset](https://github.com/drago-ex/project-preset)
 
 ## Installation

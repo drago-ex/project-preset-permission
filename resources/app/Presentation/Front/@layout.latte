@@ -1,0 +1,136 @@
+{templateType App\Presentation\BaseTemplate}
+{varType Drago\Application\UI\Flashes[] $flashes}
+{varType App\Core\Security\CurrentUser $user}
+{varType Nette\Application\UI\Presenter $presenter}
+{import '../Accessory/Widget/@brand.latte'}
+
+<!doctype html>
+<html lang="{$lang}" data-bs-theme="light">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>{ifset title}{include title|stripHtml|trim|firstUpper} &bull; {/ifset}{include brand|stripHtml|trim}</title>
+	{* a page sets $description (e.g. a static page) to get a meta description for search engines *}
+	<meta n:ifset="$description" name="description" content={$description}>
+
+	{asset 'front.js'}
+</head>
+
+<body class="front-page">
+
+<header class="sticky-top">
+	<nav class="navbar navbar-expand-lg py-3 bg-body-tertiary front-navbar">
+		<div class="container">
+			<a class="navbar-brand d-flex align-items-center gap-2" n:href=":Front:Home:">
+				{include brand-logo}
+				<span class="fw-semibold text-body-emphasis">{include brand}</span>
+			</a>
+
+			<button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#front-menu"
+					aria-controls="front-menu" aria-expanded="false" aria-label="{_'Menu'}">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+
+			<div class="collapse navbar-collapse" id="front-menu">
+				{* the brand links the home page; the blog and the static pages marked "Show in the menu" in the administration *}
+				<ul class="navbar-nav ms-auto me-lg-2">
+					<li class="nav-item">
+						<a n:href=":Front:Blog:" n:class="nav-link, $presenter->isLinkCurrent(':Front:Blog:*') ? active">{_'Blog'}</a>
+					</li>
+					<li n:foreach="$menuPages as $slug => $title" class="nav-item">
+						<a n:href=":Front:Page:default, slug: $slug" n:class="nav-link, $presenter->isLinkCurrent(':Front:Page:default', [slug: $slug]) ? active">{$title}</a>
+					</li>
+				</ul>
+
+				<div class="d-flex flex-wrap align-items-center gap-1">
+					{if $user->isLoggedIn()}
+						{* like @dropdown.latte, but the user name is data and is not translated *}
+						<div class="dropdown custom-dropdown">
+							<button class="btn btn-link dropdown-toggle text-decoration-none" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+								<i class="fa-regular fa-user"></i>
+								<span>{$user->getUserIdentity()->username}</span>
+							</button>
+							<ul class="dropdown-menu dropdown-menu-end border-0 shadow-sm">
+								<li><a class="dropdown-item" n:href=":Account:">{_'Account'}</a></li>
+								<li n:if="$user->isPermitted('Backend:Admin', 'default-read')">
+									<a class="dropdown-item" n:href=":Backend:Admin:">{_'Administration'}</a>
+								</li>
+								<li><hr class="dropdown-divider"></li>
+								<li>{include '../Accessory/Widget/@theme-switch.latte', class: 'dropdown-item', icon: true}</li>
+								<li><hr class="dropdown-divider"></li>
+								<li><a class="dropdown-item" n:href=":Sign:out">{_'Sign out'}</a></li>
+							</ul>
+						</div>
+					{else}
+						{include '../Accessory/Widget/@theme-switch.latte', class: 'nav-link px-2', icon: true}
+						<a n:href=":Sign:in" class="btn btn-primary btn-sm ms-1">{_'Sign in'}</a>
+					{/if}
+				</div>
+			</div>
+		</div>
+	</nav>
+</header>
+
+<main role="main" class="front-main flex-shrink-0">
+	<div class="container">
+		{snippet message}
+			{include '../Accessory/Widget/@toast.latte', flashes: $flashes}
+		{/snippet}
+
+		{include content}
+	</div>
+</main>
+
+<footer class="front-footer mt-auto py-5 bg-body-tertiary">
+	<div class="container">
+		<div class="row g-4">
+			<div class="col-lg-4">
+				<a class="d-inline-flex align-items-center gap-2 mb-2 text-decoration-none" n:href=":Front:Home:">
+					{include brand-logo}
+					<span class="fw-semibold text-body-emphasis">{include brand}</span>
+				</a>
+				<p class="small text-body-secondary mb-2">{_'Built on Nette with Drago Extension.'}</p>
+				<p class="small text-body-secondary mb-0">&copy; {date('Y')} {include brand|stripHtml|trim}</p>
+			</div>
+
+			{* links of the site, then the projects and the tools the site is built with; edit them freely *}
+			<div class="col-6 col-md-4 col-lg-2 offset-lg-2">
+				<h2 class="h6 text-body-secondary">{_'Links'}</h2>
+				<ul class="list-unstyled small mb-0">
+					<li class="mb-2"><a n:href=":Front:Home:" class="front-footer-link">{_'Homepage'}</a></li>
+					<li class="mb-2"><a n:href=":Front:Blog:" class="front-footer-link">{_'Blog'}</a></li>
+					<li n:foreach="$menuPages as $slug => $title" class="mb-2">
+						<a n:href=":Front:Page:default, slug: $slug" class="front-footer-link">{$title}</a>
+					</li>
+				</ul>
+			</div>
+
+			<div class="col-6 col-md-4 col-lg-2">
+				<h2 class="h6 text-body-secondary">{_'Projects'}</h2>
+				<ul class="list-unstyled small mb-0">
+					<li class="mb-2"><a href="https://github.com/netis-cms/netis" class="front-footer-link">Netis</a></li>
+					<li class="mb-2"><a href="https://github.com/drago-ex" class="front-footer-link">Drago Extension</a></li>
+					<li class="mb-2"><a href="https://github.com/compostrap" class="front-footer-link">Compostrap</a></li>
+					<li class="mb-2"><a href="https://packagist.org/packages/drago-ex/" class="front-footer-link">Packagist</a></li>
+				</ul>
+			</div>
+
+			<div class="col-6 col-md-4 col-lg-2">
+				<h2 class="h6 text-body-secondary">{_'Built with'}</h2>
+				<ul class="list-unstyled small mb-0">
+					<li class="mb-2"><a href="https://nette.org" class="front-footer-link">Nette</a></li>
+					<li class="mb-2"><a href="https://latte.nette.org" class="front-footer-link">Latte</a></li>
+					<li class="mb-2"><a href="https://dibiphp.com" class="front-footer-link">Dibi</a></li>
+					<li class="mb-2"><a href="https://getbootstrap.com" class="front-footer-link">Bootstrap</a></li>
+					<li class="mb-2"><a href="https://texy.info" class="front-footer-link">Texy</a></li>
+					<li class="mb-2"><a href="https://naja.js.org" class="front-footer-link">Naja</a></li>
+					<li class="mb-2"><a href="https://vite.dev" class="front-footer-link">Vite</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</footer>
+
+</body>
+</html>

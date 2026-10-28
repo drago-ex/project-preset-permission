@@ -8,6 +8,7 @@ Nadstavba [drago-ex/project-preset](https://github.com/drago-ex/project-preset),
 ## Požadavky
 
 - PHP >= 8.3, < 9
+- [Drago Project](https://github.com/drago-ex/project)
 - [drago-ex/project-preset](https://github.com/drago-ex/project-preset)
 
 ## Instalace
