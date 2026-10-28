@@ -10,6 +10,8 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	{* the remembered theme before the page is drawn, so a dark page does not flash light until the ThemeSwitcher script runs *}
+	<script>try { const theme = localStorage.getItem('bootstrap-theme'); if (theme === 'light' || theme === 'dark') { document.documentElement.setAttribute('data-bs-theme', theme); } } catch (e) { }</script>
 	<title>{ifset title}{include title|stripHtml|trim|firstUpper} &bull; {/ifset}{include brand|stripHtml|trim}</title>
 	{* a page sets $description (e.g. a static page) to get a meta description for search engines *}
 	<meta n:ifset="$description" name="description" content={$description}>
