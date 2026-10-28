@@ -25,7 +25,8 @@ as set in `extra.drago-tools` of this package's `composer.json`.
 ## What it adds
 
 - [Permissions (ACL)](https://github.com/drago-ex/permission) and [role management](https://github.com/drago-ex/project-permission) in the administration.
-- The administration menu shows only the items the user may open.
+- The administration menu shows only the items the user may open, and the "Administration" link of the front user menu
+  is shown only to users who may open the dashboard.
 - The add, edit and delete buttons of the blog and the static pages are shown only to roles with the write privilege.
 - The roles of users come from the database; the web installer gives the administrator the `admin` role and imports
   the privileges of the packages.

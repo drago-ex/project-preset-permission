@@ -8,3 +8,4 @@ parameters:
 		Content:
 			blog: {allowAny: [Backend:Blog, default-read]}
 			page: {allowAny: [Backend:Page, default-read]}
+			gallery: {allowAny: [Backend:Gallery, default-read]}

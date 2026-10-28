@@ -3,6 +3,7 @@ import { registerNajaExtensions } from './core/base.js';
 import { initAdminTheme } from './core/admin-theme.js';
 import Spinner from './naja/spinner.js';
 import PermissionToggle from './naja/permission-toggle.js';
+import GalleryCopy from './naja/gallery.js';
 
 // drago-ex extensions
 import { SubmitButtonDisable, TomSelectHandler } from 'drago-form';
@@ -27,5 +28,6 @@ registerNajaExtensions(
 	BootstrapComponents,
 	BootstrapDropdowns,
 	ToastHandler,
-	TexyToolbar
+	TexyToolbar,
+	GalleryCopy
 );

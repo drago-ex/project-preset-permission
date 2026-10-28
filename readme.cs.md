@@ -25,7 +25,8 @@ podle nastavení v `extra.drago-tools` v `composer.json` tohoto balíčku.
 ## Co přidává
 
 - [Oprávnění (ACL)](https://github.com/drago-ex/permission) a [správu rolí](https://github.com/drago-ex/project-permission) v administraci.
-- Menu administrace zobrazuje jen položky, které uživatel smí otevřít.
+- Menu administrace zobrazuje jen položky, které uživatel smí otevřít, a odkaz „Administrace“ v uživatelském menu
+  veřejné části vidí jen uživatelé, kteří smí otevřít přehled.
 - Tlačítka pro přidání, úpravu a mazání u blogu a statických stránek vidí jen role s privilegiem pro zápis.
 - Role uživatelů se berou z databáze; webový instalátor dá administrátorovi roli `admin` a naimportuje
   privilegia balíčků.

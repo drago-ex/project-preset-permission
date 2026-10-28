@@ -18,7 +18,9 @@ use Nette\DI\Attributes\Inject;
 abstract class BasePresenter extends Presenter
 {
 	use TranslatorAdapter;
-	use Authorization;
+	use Authorization {
+		isReadOnlySignal as isReadOnlyByLists;
+	}
 	use SettingsRequire;
 
 	/** Static pages of the front menu (project-static-page), cached. */
@@ -38,9 +40,12 @@ abstract class BasePresenter extends Presenter
 	}
 
 
-	/** Sorting, filtering and paging a grid only reads, so it is checked as "{component}-read". */
+	/**
+	 * Sorting, filtering and paging a grid only reads, so it is checked as "{component}-read"; so are the signals
+	 * a presenter lists in readOnlySignals() or readOnlyReceivers() (e.g. the image preview of the gallery).
+	 */
 	protected function isReadOnlySignal(string $receiver, string $name): bool
 	{
-		return DataGrid::isReadOnlySignal($this, $receiver, $name);
+		return DataGrid::isReadOnlySignal($this, $receiver, $name) || $this->isReadOnlyByLists($receiver, $name);
 	}
 }
