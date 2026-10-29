@@ -2,11 +2,9 @@
 parameters:
 	sidebar:
 		System:
+			# opens the roles of users, the roles are opened from there
 			permission:
 				title: Permissions
-				link: 'Permission:*'
+				link: 'Permission:'
 				icon: fa-solid fa-gear bell
 				allowAny: [Backend:Permission, roles-read, users-read]
-				items:
-					roles: {title: Roles, link: 'Permission:roles', allow: [Backend:Permission, roles-read]}
-					users: {title: Users roles, link: 'Permission:users', allow: [Backend:Permission, users-read]}
