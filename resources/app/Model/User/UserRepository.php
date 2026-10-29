@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace App\Model\User;
 
@@ -46,10 +44,7 @@ class UserRepository
 	 */
 	public function getUserByEmail(string $email): UserEntity
 	{
-		$user = $this->findUserByEmail($email);
-		if ($user === null) {
-			throw new UserNotFoundException("User with email '$email' was not found.", 1001);
-		}
+		$user = $this->findUserByEmail($email) ?? throw new UserNotFoundException("User with email '$email' was not found.", 1001);
 		return $user;
 	}
 
@@ -70,8 +65,12 @@ class UserRepository
 	public function getRolesByUser(int $userId): array
 	{
 		$roles = $this->getConnection()
-			->select('r.*')->from(RolesEntity::Table)->as('r')
-			->innerJoin(UsersRolesEntity::Table)->as('ur')->on('ur.role_id = r.id')
+			->select('r.*')
+			->from(RolesEntity::Table)
+			->as('r')
+			->innerJoin(UsersRolesEntity::Table)
+			->as('ur')
+			->on('ur.role_id = r.id')
 			->where('ur.%n = ?', UsersRolesEntity::ColumnUserId, $userId)
 			->fetchPairs(value: RolesEntity::ColumnName);
 

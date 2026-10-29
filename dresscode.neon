@@ -1,0 +1,20 @@
+use:
+	- nette
+	- modernizations
+
+typeAnalysis: phpstan
+
+paths:
+	- resources
+
+fileExtensions:
+	- php
+	- phpt
+
+overrides:
+	-
+		paths: [resources]
+		nameResolution: certain
+		use:
+			- compilerOptimizations
+			- deprecations
