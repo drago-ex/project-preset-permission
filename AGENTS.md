@@ -7,7 +7,7 @@ Use this file as package-specific guidance when working in this repository. Keep
 - **Type**: drago-tools-resource
 - **Purpose**: Overlay of project-preset that adds permissions: menu by privileges, write buttons and database roles.
 - **PHP**: >=8.3 <9
-- **Runtime dependencies**: drago-ex/translator (^4.0.1), drago-ex/project-preset (^1.0), drago-ex/project-install (^1.0), drago-ex/permission (^1.0), drago-ex/project-permission (^1.0), drago-ex/datagrid (^1.0)
+- **Runtime dependencies**: drago-ex/translator (^4.0.1), drago-ex/project-preset (^1.0), drago-ex/project-install (^1.0), drago-ex/permission (^1.0), drago-ex/project-permission (^1.0), drago-ex/datagrid (^1.0), drago-ex/database (^4.1)
 - **License**: MIT
 
 ## Repository Layout
