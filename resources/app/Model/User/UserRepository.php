@@ -6,32 +6,29 @@ use App\Presentation\Backend\Permission\Component\Roles\RolesEntity;
 use App\Presentation\Backend\Permission\Component\Users\UsersRolesEntity;
 use Dibi\Connection;
 use Dibi\Exception;
-use Drago\Attr\AttributeDetectionException;
-use Drago\Attr\Table;
-use Drago\Database\Database;
+use Drago\Database\Table;
 use Drago\Permission\Role;
 
 
-#[Table(UserEntity::Table, UserEntity::ColumnId, entity: UserEntity::class)]
 class UserRepository
 {
-	/** @use Database<UserEntity> */
-	use Database;
+	/** @var Table<UserEntity> */
+	public Table $table;
 
-	public function __construct(
-		private readonly Connection $connection,
-	) {
+
+	public function __construct(Connection $db)
+	{
+		$this->table = new Table($db, UserEntity::Table, UserEntity::ColumnId, UserEntity::class);
 	}
 
 
 	/**
 	 * Finds a user by their email.
 	 * @throws Exception
-	 * @throws AttributeDetectionException
 	 */
 	public function findUserByEmail(string $email): ?UserEntity
 	{
-		return $this->find(UserEntity::ColumnEmail, $email)
+		return $this->table->find(UserEntity::ColumnEmail, $email)
 			->record();
 	}
 
@@ -40,7 +37,6 @@ class UserRepository
 	 * Finds a user by their email or throws an exception if not found.
 	 * @throws UserNotFoundException
 	 * @throws Exception
-	 * @throws AttributeDetectionException
 	 */
 	public function getUserByEmail(string $email): UserEntity
 	{
@@ -50,12 +46,11 @@ class UserRepository
 
 	/**
 	 * Finds a user by their token.
-	 * @throws AttributeDetectionException
 	 * @throws Exception
 	 */
 	public function findUserByToken(string $token): ?UserEntity
 	{
-		return $this->find(UserEntity::ColumnToken, $token)
+		return $this->table->find(UserEntity::ColumnToken, $token)
 			->record();
 	}
 
@@ -63,7 +58,7 @@ class UserRepository
 	/** @return list<string> */
 	public function getRolesByUser(int $userId): array
 	{
-		$roles = $this->getConnection()
+		$roles = $this->table->getConnection()
 			->select('r.*')
 			->from(RolesEntity::Table)
 			->as('r')

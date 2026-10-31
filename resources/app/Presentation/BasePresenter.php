@@ -4,7 +4,6 @@ namespace App\Presentation;
 
 use App\Core\Settings\SettingsRequire;
 use App\Model\Page\PageMenu;
-use Drago\Attr\AttributeDetectionException;
 use Drago\Datagrid\DataGrid;
 use Drago\Localization\TranslatorAdapter;
 use Drago\Permission\Authorization;
@@ -26,7 +25,6 @@ abstract class BasePresenter extends Presenter
 	public PageMenu $pageMenu;
 
 
-	/** @throws AttributeDetectionException */
 	protected function beforeRender(): void
 	{
 		parent::beforeRender();

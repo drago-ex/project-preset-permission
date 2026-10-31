@@ -49,7 +49,7 @@
 	</span>
 </h5>
 
-{if $writeAllowed && $uploadSupported}
+{if $writeAllowed}
 	{snippet upload}
 		{embed '../../../Accessory/Widget/@form.latte', name: 'upload', class: 'ajax mb-4', najaHistory: 'off'}
 			{block form}
@@ -64,8 +64,6 @@
 			{/block}
 		{/embed}
 	{/snippet}
-{elseif $writeAllowed}
-	<div class="alert alert-warning">{_'Uploading images needs the PHP extension GD.'}</div>
 {/if}
 
 {* the buttons appear over an image when the mouse is on it (assets/naja/gallery.scss); the copy button copies
